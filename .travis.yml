@@ -1,0 +1,11 @@
+language: ruby
+
+services:
+  - docker
+
+before_install:
+  - docker build -t vzic_build .
+  - docker create --name vzic -w /tmp vzic_build './build.sh'
+  - docker cp . vzic:/tmp/
+  - docker start -a vzic
+  - docker cp vzic:/tmp/build/out .
